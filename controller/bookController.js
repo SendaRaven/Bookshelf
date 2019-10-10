@@ -1,10 +1,12 @@
-//const Books = require('../models/bookModel');
-//const address = require('../models/address')
-//const validator = require('validator');
-let createError = require('http-errors');
+'use strict';
+
+// const Book = require('../models/bookModel');
+// const address = require('../models/address')
+// const validator = require('validator');
+const createError = require('http-errors');
 
 function books(req, res, next) {
-    // Books.find({}, function (err, books) {
+    // Book.find({}, function (err, books) {
     //     if (err) {
     //         next(createError(400, err));
     //     }
@@ -14,5 +16,5 @@ function books(req, res, next) {
 }
 
 module.exports = {
-    books:books,
+    books: books,
 }
