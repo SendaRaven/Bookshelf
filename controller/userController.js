@@ -4,20 +4,21 @@ const Users = require('../models/userSchema');
 // const validator = require('validator');
 const createError = require('http-errors');
 
-function users(req, res, next) {
-    // Users.find({}, function (err, users) {
-    //     if (err) {
-    //         next(createError(400, err));
-    //     }
-    //     res.send(users)
-    // })
-    res.send("a lot of users")
+function user(req, res, next) {
+    let searchedName = req.params.username //can not be parameter based
+    Users.find({ username: searchedName }, function (err, user) {
+        if (err) {
+            next(createError(400, err));
+        }
+        res.send(user)
+    })
+    //    res.send("a lot of users")
 }
 
 function createUser(req, res, next) {
 
     let userData = req.body;
-    console.log(userData);
+    //console.log(userData);
 
     if (!userData.username || !userData.password) {
         next(createError(400, "required fields missing: username, password!"))
@@ -41,6 +42,8 @@ function createUser(req, res, next) {
     try {
         Users.create(newUser, function (err, doc) {
             if (err) {
+                console.log("Error!!!", err);
+
                 let msg = "Internal server error";
                 let status = 500;
 
@@ -50,21 +53,25 @@ function createUser(req, res, next) {
                     status = 409; // Conflict
                 }
 
-                res.status(status);
-                res.send(msg);
+                res.status(status).send(msg);
                 return;
             }
+
+            res.status(200)
             res.send(doc);
+            // res.send("Input is valid!")
         })
     } catch (error) {
-        console.log(error);
+        console.log("Error2", error);
         next(createError(500, error))
     }
-    //res.status(200).send("Input is valid!")
+
 }
 
 
 module.exports = {
-    users: users,
-    createUser: createUser
+    user: user,
+    createUser: createUser,
+    updateUser: updateUser,
+    deleteUser: deleteUser
 }
