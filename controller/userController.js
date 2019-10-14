@@ -6,11 +6,13 @@ const createError = require('http-errors');
 
 function user(req, res, next) {
     let searchedName = req.params.username //can not be parameter based
-    Users.find({ username: searchedName }, function (err, user) {
-        if (err) {
-            next(createError(400, err));
-        }
+    Users.findOne({ username: searchedName }, function (err, user) {
+        if (!user) {
+            next(createError(400, "no user"));
+            
+        } else {
         res.send(user)
+    }
     })
     //    res.send("a lot of users")
 }
@@ -30,7 +32,7 @@ function createUser(req, res, next) {
         return;
     }
     if (userData.password.length < 6 || userData.password.length > 1024) {
-        next(createError(400, "Password not valid!"))
+        next(createError(404, "Password not valid!"))
         return;
     }
 
@@ -72,6 +74,6 @@ function createUser(req, res, next) {
 module.exports = {
     user: user,
     createUser: createUser,
-    updateUser: updateUser,
-    deleteUser: deleteUser
+ //   updateUser: updateUser,
+  //  deleteUser: deleteUser
 }

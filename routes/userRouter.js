@@ -1,11 +1,11 @@
 const express = require('express');
 const Router = express.Router();
 const userController = require('../controller/userController');
-
-Router.get('/:username', userController.user); //parameter are not allowed and authorithation is needed
+const userAuth = require("../middleware/auth")
+Router.get('/:username', /* userAuth.check, */ userController.user); //parameter are not allowed and authorithation is needed
 Router.post('/', userController.createUser);
-// Router.put('/', userController.updateUser);
-// Router.delete('/', usercontroller.deleteUser)
+// Router.put('/', userAuth.check, userController.updateUser);
+// Router.delete('/', userAuth.check, userController.deleteUser)
 
 
 module.exports = Router;
