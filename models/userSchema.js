@@ -20,57 +20,57 @@ const UserSchema = new Schema({
         min: 6,
         max: 1024,
     },
-    // contact: {
-    //     name: {
-    //         firstName: {
-    //             type: String,
-    //             required: true
-    //         },
-    //         lastName: {
-    //             type: String,
-    //             required: true
-    //         },
-    //     },
-    //     birthday: Date,
-    //     address: {
-    //         street: {
-    //             name: {
-    //                 type: String,
-    //                 required: true
-    //             },
-    //             number: {
-    //                 type: Number,
-    //                 required: true
-    //             },
-    //         },
-    //         city: {
-    //             type: String,
-    //             required: true
-    //         },
-    //         zipCode: {
-    //             type: Number,
-    //             required: true
-    //         },
-    //     },
-    //     email: {
-    //         type: String,
-    //         required: true,
-    //         min:6,
-    //         max: 256
-    //     },
-    //     phone: {
-    //         type: String,
-    //         required: true,
-    //         minlength: 6,
-    //         maxlength: 10
-    //     },
-    // },
+    contact: {
+        name: {
+            firstName: {
+                type: String,
+                required: true
+            },
+            lastName: {
+                type: String,
+                required: true
+            },
+        },
+        birthday: Date,
+        address: {
+            street: {
+                name: {
+                    type: String,
+                    required: true
+                },
+                number: {
+                    type: Number,
+                    required: true
+                },
+            },
+            city: {
+                type: String,
+                required: true
+            },
+            zipCode: {
+                type: Number,
+                required: true
+            },
+        },
+        email: {
+            type: String,
+            required: true,
+            min: 6,
+            max: 256
+        },
+        phone: {
+            type: String,
+            required: true,
+            minlength: 6,
+            maxlength: 10
+        },
+    },
     borrowedBooks: {
-        type: [Object],
+        type: Array,
         default: []
     },
     openFees: {
-        type: [Object],
+        type: Array,
         default: []
     },
 })
