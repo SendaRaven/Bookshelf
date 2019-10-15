@@ -5,16 +5,22 @@ const env = require('dotenv');
 env.config();
 
 
-function createAuth(req) {
-    const salt = bcrypt.genSalt(10);
-    const hashedPassword = bcrypt.hash(req.body.password, salt)
+async function createAuth(clear) {
+    console.log(clear);
+
+    const salt = await bcrypt.genSalt(10);
+    console.log(salt);
+
+    const hashedPassword = await bcrypt.hash(clear, salt)
+    console.log(hashedPassword);
+
     return hashedPassword;
 }
 
-function checkAuth(req) {
-    const passwordsMatch = bcrypt.compare(req.body.password, user.password)
+async function checkAuth(req) {
+    const passwordsMatch = await bcrypt.compare(req.body.password, user.password)
     if (!passwordsMatch) {
-        return createError(400,'email or password incorrect.')
+        return createError(400, 'email or password incorrect.')
     }
     const token = jwt.sign({ id: user._id }, process.env.KEY);
 

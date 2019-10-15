@@ -3,31 +3,32 @@
 const Users = require('../models/userSchema');
 // const validator = require('validator');
 const createError = require('http-errors');
+const { create } = require('../middleware/auth')
 
 function user(req, res, next) {
-    let searchedName = req.params.username //can not be parameter based
-    Users.findOne({ username: searchedName }, function (err, user) {
+    let loginName = req.body.username //can not be parameter based
+    Users.findOne({ username: loginName }, function (err, user) {
         if (!user) {
             next(createError(400, "no user"));
-            
+
         } else {
-        res.send(user)
-    }
+            res.send(user)
+        }
     })
     //    res.send("a lot of users")
 }
 
-function createUser(req, res, next) {
+async function createUser(req, res, next) {
 
     let userData = req.body;
-    //console.log(userData);
+    console.log(userData.password, userData.username);
 
     if (!userData.username || !userData.password) {
         next(createError(400, "required fields missing: username, password!"))
         return;
     }
 
-    if (userData.username.length < 3 || userData.username.length > 20) {
+    if (userData.username.length < 3 || userData.username.length > 30) {
         next(createError(400, "Username not valid!"))
         return;
     }
@@ -38,8 +39,13 @@ function createUser(req, res, next) {
 
     let newUser = {
         username: userData.username.trim(),
-        password: userData.password.trim()
+        password: await create(userData.password.trim()),
+        contact: userData.contact,
+        borrowedBooks: userData.borrowedBooks,
+        openFees: userData.openFees
     }
+
+    console.log(newUser);
 
     try {
         Users.create(newUser, function (err, doc) {
@@ -74,6 +80,6 @@ function createUser(req, res, next) {
 module.exports = {
     user: user,
     createUser: createUser,
- //   updateUser: updateUser,
-  //  deleteUser: deleteUser
+    //   updateUser: updateUser,
+    //  deleteUser: deleteUser
 }
