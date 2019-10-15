@@ -11,7 +11,7 @@ const UserSchema = new Schema({
         required: true,
         unique: true,
         minlength: 3,   // validate
-        maxlength: 20,  // validate
+        maxlength: 30,  // validate
         trim: true      // sanitize
     },
     password: {
@@ -62,7 +62,7 @@ const UserSchema = new Schema({
             type: String,
             required: true,
             minlength: 6,
-            maxlength: 10
+            maxlength: 20
         },
     },
     borrowedBooks: {
