@@ -6,7 +6,7 @@
 
 const app = require('../app');
 const debug = require('debug')('test:server');
-const http = require('http');
+const http = require('http'); // replace http everywhere with https for secure comunication!
 
 /**
  * Get port from environment and store in Express.
@@ -36,11 +36,22 @@ db.once('open', function () {
     console.log(`MongoDB is connected over http://127.0.0.1:27017/bookshelf!`);
 
 })
+
+/**
+ * part of the HTTPS server creation.
+ */
+
+// const fs = require('fs');
+
+// const options = {
+//     key: fs.readFileSync('test/fixtures/keys/agent2-key.pem'),
+//     cert: fs.readFileSync('test/fixtures/keys/agent2-cert.pem')
+// };
+
 /**
  * Create HTTP server.
  */
-
-const server = http.createServer(app);
+const server = http.createServer(app);// add options in front of app for https credentials
 
 /**
  * Listen on provided port, on all network interfaces.
