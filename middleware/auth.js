@@ -6,25 +6,23 @@ env.config();
 
 
 async function createAuth(clear) {
-    console.log(clear);
-
     const salt = await bcrypt.genSalt(10);
-    console.log(salt);
-
     const hashedPassword = await bcrypt.hash(clear, salt)
-    console.log(hashedPassword);
 
     return hashedPassword;
 }
 
-async function checkAuth(req) {
-    const passwordsMatch = await bcrypt.compare(req.body.password, user.password)
-    if (!passwordsMatch) {
-        return createError(400, 'email or password incorrect.')
+async function checkAuth(password, userPassword) {
+    try {
+        const passwordsMatch = await bcrypt.compare(password, userPassword)
+        if (!passwordsMatch) {
+            return createError(400, 'email or password incorrect.')
+        }
+        return passwordsMatch
+    } catch (error) {
+        () => res.send("in auth.js", error.message)
     }
-    const token = jwt.sign({ id: user._id }, process.env.KEY);
-
-    res.header('auth-token', token).send('You are logged in');
+    
 }
 
 

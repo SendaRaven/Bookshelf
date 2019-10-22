@@ -3,29 +3,32 @@
 const Users = require('../models/userSchema');
 // const validator = require('validator');
 const createError = require('http-errors');
-const { create } = require('../middleware/auth')
+const { create, check} = require('../middleware/auth')
 const jwt = require('jsonwebtoken');
 
 async function userLogin(req, res, next) {
     const username = await req.body.username;
-    console.log(req.body);
-
     const password = await req.body.password;
 
     if (!username || !password) {
-        next(createError(401, "Authentification required"))
+        next(createError(401, "Authentication required"))
     }
     try {
+
         Users.findOne({
             username: username
-        }, function (err, user) {
+        }, async function (err, user) {
             if (err) {
-                next(createError(401, err.message))
+               return next(createError(401, err.message))
             }
             if (!user) {
-                next(createError(400, "no user"));
+                return next(createError(400, "The username does not exist"));
+            
             }
-            if (user.password === password) {
+            // console.log(user.password);
+            // console.log(await check(password, user.password));
+            
+            if (await check(password, user.password) === true) {
                 let token = jwt.sign(
                     {
                         username: username,
@@ -36,11 +39,11 @@ async function userLogin(req, res, next) {
                 )
                 res.json({ token: token })
             } else {
-                return next(createError(401, "Authentification required"))
+                return next(createError(401, "Authentication required"))
             }
         })
     } catch (error) {
-        return next(createError(401, "Authentification required"))
+        return next(createError(401, "Authentication required"))
     }
 }
 
