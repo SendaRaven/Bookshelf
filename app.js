@@ -15,8 +15,6 @@ const jwt = require('express-jwt')
 ** serves all the static files in the /public directory in the project root
 */
 app.use(express.json())
-
-
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter)
