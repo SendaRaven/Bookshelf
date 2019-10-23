@@ -14,7 +14,7 @@ async function fetchUser(req, res, next) {
     try {
         Users.findOne({ _id: userID }, function (err, user) {
             if (err) {
-                return next(500, err.message)
+                return next(createError(500, err.message))
             }
 
             res.send(user.contact)
@@ -32,7 +32,7 @@ async function deleteUser(req,res,next) {
     try {
         Users.deleteOne({ _id: userID }, function (err, user) {
             if (err) {
-                return next(500, err.message)
+                return next(createError(500, err.message))
             }
 
             res.sendStatus(200)
