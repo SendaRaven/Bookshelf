@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Container, makeStyles, FormControl, InputLabel, Input, InputAdornment, Button, IconButton } from '@material-ui/core'
+import { Container, makeStyles, FormControl, InputLabel, Input, InputAdornment, Button, IconButton} from '@material-ui/core'
 import { Visibility, VisibilityOff } from '@material-ui/icons'
 import clsx from 'clsx';
 
@@ -9,6 +9,15 @@ const useStyle = makeStyles(theme => ({
         borderRadius: 2,
         flexDirection: 'column',
         maxWidth: '80vw',
+        [theme.breakpoints.up(460)]: {
+            maxWidth: '55vw',
+          },
+          [theme.breakpoints.up(686)]: {
+            maxWidth: '45vw',
+          },
+        [theme.breakpoints.up(800)]: {
+            maxWidth: '30%',
+          },
         minHeight: 'min-content',
         padding: '1vh',
         boxShadow: '5px 5px 5px 3px',
@@ -30,7 +39,7 @@ const useStyle = makeStyles(theme => ({
 }))
 
 export default function Login() {
-
+    // const matches = useMediaQuery(theme => theme.breakpoints.up('sm'));
     const classes = useStyle();
     const [values, setValues] = useState({
         name: '',

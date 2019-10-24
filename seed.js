@@ -71,12 +71,12 @@ function seed() {
 
     };
 
-    user.insertMany(rawUsers, function (error, docs) {
-        console.log("User:", error);
-        console.log(`${docs.length} docs(Users) inserted!`);
-        console.log(docs[0]);
-        //process.exit(0); //if uncommented it will stop the data insertion here 
-    })
+    // user.insertMany(rawUsers, function (error, docs) {
+    //     console.log("User:", error);
+    //     console.log(`${docs.length} docs(Users) inserted!`);
+    //     console.log(docs[0]);
+    //     //process.exit(0); //if uncommented it will stop the data insertion here 
+    // })
     book.insertMany(rawBooks, function (error, docs) {
         console.log("Book:", error);
         console.log(`${docs.length} docs(Books) inserted!`);
