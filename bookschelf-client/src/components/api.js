@@ -1,14 +1,18 @@
 
 
-function getBooks() {
+async function getBooks() {
     try {
-        fetch("http://localhost:3001/books")
-            .then(res => res.json())
-            .then(res1 => {return res1}                
-            )
+        const res = await fetch("http://localhost:3001/books")
+        //console.log(res.json());
+
+        if (res.ok) {
+            return res.json();
+        }
+        else {
+            throw Error("Failed fetching Contacts!");
+        }
     } catch (error) {
         console.log(error);
-
     }
 }
 

@@ -7,7 +7,7 @@ import Signup from '../src/components/Signup';
 import Login from '../src/components/Login';
 import Home from '../src/components/Home';
 import Bookshelf from '../src/components/Bookshelf'
-
+import BookView from '../src/components/BookView'
 
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -53,8 +53,8 @@ export default function ButtonAppBar() {
                 <MenuIcon />
               </IconButton>
               <Typography variant="h6" className={classes.title}>
-               <Link to="/Bookshelf" >Bookshelf</Link>
-          </Typography>
+                <Link to="/Bookshelf" >Bookshelf</Link>
+              </Typography>
               <Button color="inherit">Login</Button>
             </Toolbar>
           </AppBar>
@@ -65,7 +65,8 @@ export default function ButtonAppBar() {
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route path="/dashboard" component={Dashboard} />
-            <Route path="/Bookshelf" component={Bookshelf}/>
+            <Route path="/Bookshelf" component={Bookshelf} />
+            <Route path="/:id" render={(props) => <BookView {...props} />} />
           </Switch>
         </Container>
       </Router>
