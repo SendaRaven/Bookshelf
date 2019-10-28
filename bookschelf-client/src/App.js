@@ -66,7 +66,7 @@ export default function ButtonAppBar() {
             <Route path="/signup" component={Signup} />
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/Bookshelf" component={Bookshelf} />
-            <Route path="/:id" render={(props) => <BookView {...props} />} />
+            <Route path="/:id" component={BookView} />
           </Switch>
         </Container>
       </Router>
@@ -74,12 +74,3 @@ export default function ButtonAppBar() {
   );
 }
 
-
-
-                  // <Link to="/">Bookshelf</Link>
-
-                  // <Link to='/dashboard'>Dashboard</Link>
-
-                  // <Link to='/signup'>Signup</Link>
-
-                  // <Link to="/login">Log In</Link>
