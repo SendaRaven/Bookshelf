@@ -6,48 +6,33 @@ import Dashboard from '../src/components/Dashboard';
 import Signup from '../src/components/Signup';
 import Login from '../src/components/Login';
 import Home from '../src/components/Home';
-import Bookshelf from '../src/components/Bookshelf'
-import BookView from '../src/components/BookView'
+import Bookshelf from '../src/components/Bookshelf';
+import BookView from '../src/components/BookView';
 
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import Container from '@material-ui/core/Container';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-  container: {
-    minHeight: '92vmin',
-    border: '1px dashed red',
-    paddingTop: '10vh',
-    justifyContent: 'center',
-    textAlign: 'center',
-    color: 'grey'
-  }
-}));
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Navbar from 'react-bootstrap/Navbar';
+import Container from 'react-bootstrap/Container';
 
 export default function ButtonAppBar() {
-  const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div>
       <Router>
 
         <Switch>
-          <AppBar position="static">
+          <Navbar bg="dark" variant="dark">
+            <Navbar.Brand /*  href="/" */><Link to="/Bookshelf" >Bookshelf</Link></Navbar.Brand>
+            {/* <Nav className="mr-auto">
+              <Nav.Link href="#home">Home</Nav.Link>
+              <Nav.Link href="#features">Features</Nav.Link>
+              <Nav.Link href="#pricing">Pricing</Nav.Link>
+            </Nav> */}
+            {/* <Form inline>
+              <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+              <Button variant="outline-info">Search</Button>
+            </Form> */}
+          </Navbar>
+          {/* <AppBar position="static">
             <Toolbar>
               <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                 <MenuIcon />
@@ -57,16 +42,16 @@ export default function ButtonAppBar() {
               </Typography>
               <Button color="inherit">Login</Button>
             </Toolbar>
-          </AppBar>
+          </AppBar> */}
         </Switch>
-        <Container maxWidth="md" className={classes.container}>
+        <Container className="d-flex justify-content-center mt-5">
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/Bookshelf" component={Bookshelf} />
-            <Route path="/:id" render={(props) => <BookView {...props} />} />
+            <Route path="/:id" component={BookView} />
           </Switch>
         </Container>
       </Router>

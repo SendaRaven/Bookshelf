@@ -1,46 +1,15 @@
 import React, { useState } from 'react'
-import { Container, makeStyles, FormControl, InputLabel, Input, InputAdornment, Button, IconButton} from '@material-ui/core'
-import { Visibility, VisibilityOff } from '@material-ui/icons'
-import clsx from 'clsx';
+import Form from 'react-bootstrap/Form';
+import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
+import InputGroup from 'react-bootstrap/InputGroup';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
-const useStyle = makeStyles(theme => ({
-    container: {
-        border: 0,
-        borderRadius: 2,
-        flexDirection: 'column',
-        maxWidth: '80vw',
-        [theme.breakpoints.up(460)]: {
-            maxWidth: '55vw',
-          },
-          [theme.breakpoints.up(686)]: {
-            maxWidth: '45vw',
-          },
-        [theme.breakpoints.up(800)]: {
-            maxWidth: '30%',
-          },
-        minHeight: 'min-content',
-        padding: '1vh',
-        boxShadow: '5px 5px 5px 3px',
-    },
-    form: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
-    textField: {
-        marginLeft: theme.spacing(1),
-        marginRight: theme.spacing(1),
-    },
-    dense: {
-        marginTop: theme.spacing(2),
-    },
-    button: {
-        margin: theme.spacing(1)
-    }
-}))
+
 
 export default function Login() {
-    // const matches = useMediaQuery(theme => theme.breakpoints.up('sm'));
-    const classes = useStyle();
+
     const [values, setValues] = useState({
         name: '',
         password: '',
@@ -66,9 +35,43 @@ export default function Login() {
 
     return (
         <div>
-            <Container className={classes.container}>
+            <Container>
                 <h4>Signup</h4>
-                <form className={classes.form} noValidate autoComplete="off" onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit}>
+                    <Form.Group controlId="formBasicEmail">
+                        <Form.Label>Name</Form.Label>
+                        <Form.Control type="text" placeholder="Enter name" onChange={handleChange("name")} required />
+                    </Form.Group>
+
+                    <Form.Group controlId="formBasicEmail">
+                        <Form.Label>Email address</Form.Label>
+                        <Form.Control type="email" placeholder="Enter email" onChange={handleChange("email")} required />
+                        <Form.Text className="text-muted">
+                            We'll never share your email with anyone else.
+                        </Form.Text>
+                    </Form.Group>
+
+                    <Form.Group controlId="formBasicPassword">
+                        <Form.Label>Password</Form.Label>
+                        <InputGroup>
+                            <Form.Control value={values.password} type={values.showPassword ? 'text' : 'password'} placeholder="Password" onChange={handleChange("password")} required />                            <InputGroup.Append>
+                                <InputGroup.Text
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                >
+                                    {values.showPassword ? <FontAwesomeIcon icon={faEye} /> : <FontAwesomeIcon icon={faEyeSlash} />}
+                                </InputGroup.Text>
+                            </InputGroup.Append>
+                        </InputGroup>
+                    </Form.Group>
+                    {/* <Form.Group controlId="formBasicCheckbox">
+                        <Form.Check type="checkbox" label="Check me out" />
+                    </Form.Group> */}
+                    <Button variant="primary" type="submit">
+                        Submit
+  </Button>
+                </Form>
+                {/* <form className={classes.form} noValidate autoComplete="off" onSubmit={handleSubmit}>
 
 
                     <FormControl className={clsx(classes.margin, classes.textField)}
@@ -102,12 +105,12 @@ export default function Login() {
                                 </InputAdornment>
                             }
                         />
-                        </FormControl >
-                         <FormControl className={clsx(classes.margin, classes.textField)}
+                    </FormControl >
+                    <FormControl className={clsx(classes.margin, classes.textField)}
                         margin="dense">
 
-                         <InputLabel htmlFor="adornment-password-repeat">Repeat Password</InputLabel>
-                          <Input
+                        <InputLabel htmlFor="adornment-password-repeat">Repeat Password</InputLabel>
+                        <Input
                             id="adornment-password-repeat"
                             type={values.showPassword ? 'text' : 'password'}
                             value={values.password}
@@ -128,7 +131,7 @@ export default function Login() {
                     <Button type='submit' className={classes.button} variant="contained" color='primary'>
                         Register
                     </Button>
-                </form >
+                </form > */}
             </Container >
 
         </div >

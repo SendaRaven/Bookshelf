@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-//import { getBooks } from './api';
-import { ListItem, List, ListItemText, ListItemIcon } from '@material-ui/core'
-import { Link as RouterLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { MemoryRouter } from 'react-router';
-// import { withRouter } from "react-router";
-import LibraryBooksOutlinedIcon from '@material-ui/icons/LibraryBooksOutlined';
+import ListGroup from 'react-bootstrap/ListGroup'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
+import Pagination from 'react-bootstrap/Pagination'
+
 
 function Bookshelf() {
 
@@ -30,37 +31,36 @@ function Bookshelf() {
     }, []);
     // console.log("State", Books.x);
 
-    const Link = React.useMemo(() => React.forwardRef((props, ref) => {
-        return < RouterLink innerRef={ref} {...props} />
-    }
-    ));
+
 
     return (
-        <MemoryRouter>
-            <List>
 
-                {/* <ListItem to={`/${Books.x._id}`} color="primary" component={AdapterLink}>Link</ListItem> */}
-                {Books.x.map((book, index) => {
-                    //console.log(index, book);
-                    console.log(book.information.title);
+        <ListGroup>
 
-                    return (
-                        <ListItem
-                            key={index}
-                            to={{ pathname: `/${book._id}`, state: { book: book } }}
-                            // book={book}
-                            component={Link}
-                            button={true}
-                            color="primary"
+            {/* <ListItem to={`/${Books.x._id}`} color="primary" component={AdapterLink}>Link</ListItem> */}
+            {Books.x.map((book, index) => {
+                //console.log(index, book);
+                // console.log(book.information.title)
+                return (
 
-                        >
-                            <ListItemIcon>{LibraryBooksOutlinedIcon}</ListItemIcon>
-                            < ListItemText primary={book.information.title} />
-                        </ListItem>
-                    );
-                })}
-            </List>
-        </MemoryRouter >
+                    <ListGroup.Item
+                        action
+                        key={index}
+                        book={book}
+                    >
+                        <Link to={`/${book._id}`} {...book}><FontAwesomeIcon icon={faBookOpen} /> {book.information.title}</Link>
+                    </ListGroup.Item>
+                )
+            })}
+            <Pagination>
+                <Pagination.First />
+                <Pagination.Prev />
+                <Pagination.Ellipsis />
+                <Pagination.Next />
+                <Pagination.Last />
+            </Pagination>
+        </ListGroup >
+
     )
 }
 export default Bookshelf;
