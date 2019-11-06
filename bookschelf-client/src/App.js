@@ -59,12 +59,3 @@ export default function ButtonAppBar() {
   );
 }
 
-
-
-                  // <Link to="/">Bookshelf</Link>
-
-                  // <Link to='/dashboard'>Dashboard</Link>
-
-                  // <Link to='/signup'>Signup</Link>
-
-                  // <Link to="/login">Log In</Link>

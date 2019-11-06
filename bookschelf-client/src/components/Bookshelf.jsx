@@ -7,7 +7,7 @@ import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
 import Pagination from 'react-bootstrap/Pagination'
 
 
-function Bookshelf() {
+function Bookshelf(props) {
 
     const [Books, setBooks] = useState({ x: [] });
 
