@@ -11,6 +11,8 @@ Frontend:
 
 Backend:
 - Node.js with express
+- Authantification with JsonWebToken
+- Password encryption with bcrypt
 
 Database:
 - MongoDB
