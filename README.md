@@ -5,7 +5,7 @@
 
 2. Tech
 Frontend:
-- react.js
+- react.js with hooks
 - bootstrap
 - react-bootstrap
 
