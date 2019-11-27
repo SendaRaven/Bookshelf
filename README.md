@@ -1,7 +1,7 @@
 # Bookshelf (work in progress)
 
 1. How does it work?   
-  It is a Library Application and consist of 3 Parts, the client,the server and a database. The app allows to search for books and borrow them (simulation). It is also possible to create user accounts.
+  It is a Library Application and consist of 3 parts: the client, the server and a database. The app allows to search for books and borrow them (simulation). It is also possible to create user accounts.
 
 2. Tech
 Frontend:
