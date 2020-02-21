@@ -48,7 +48,7 @@ function Bookshelf(props) {
                         key={index}
                         book={book}
                     >
-                        <Link to={`/${book._id}`} {...book}><FontAwesomeIcon icon={faBookOpen} /> {book.information.title}</Link>
+                        <Link to={`/Bookshelf/${book._id}`} {...book}><FontAwesomeIcon icon={faBookOpen} /> {book.information.title}</Link>
                     </ListGroup.Item>
                 )
             })}
