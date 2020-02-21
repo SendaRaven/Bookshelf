@@ -55,9 +55,14 @@ async function login(username, password) {
     }
 }
 
+function logout() {
+    localStorage.removeItem('cm-user')
+}
+
 
 module.exports = {
     getBooks: getBooks,
     login: login,
-    currentUser:currentUser,
+    currentUser: currentUser,
+    logout: logout
 }
