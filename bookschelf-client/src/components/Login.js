@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { login } from "./api";
 
 
 export default function Login() {
@@ -30,7 +31,7 @@ export default function Login() {
     const handleSubmit = event => {
         event.preventDefault();
         console.log("Hey");
-
+        login(values.name, values.password)
     };
 
     return (
@@ -38,11 +39,7 @@ export default function Login() {
             <Container /* className="{classes.container}" */>
                 <h4>Login</h4>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Name</Form.Label>
-                        <Form.Control type="text" placeholder="Enter name" onChange={handleChange("name")} required />
-                    </Form.Group>
-
+                    
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
                         <Form.Control type="email" placeholder="Enter email" onChange={handleChange("email")} required />
