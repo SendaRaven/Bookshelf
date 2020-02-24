@@ -24,10 +24,10 @@ function currentUser() {
     return JSON.parse(cmUser)
 }
 
-async function login(username, password) {
+async function login(email, password) {
 
     const body = {
-        username: username,
+        email: email,
         password: password
     }
     const options = {
@@ -40,7 +40,7 @@ async function login(username, password) {
         if (data.ok) {
             data.json();
             const user = {
-                username: username,
+                email: email,
                 token: data.token
             }
             localStorage.setItem("cm-user", JSON.stringify(user))

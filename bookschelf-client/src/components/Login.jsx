@@ -31,7 +31,7 @@ export default function Login() {
     const handleSubmit = event => {
         event.preventDefault();
         console.log("Hey");
-        login(values.name, values.password)
+        login(values.email, values.password)
     };
 
     return (
