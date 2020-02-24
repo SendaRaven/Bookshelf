@@ -6,10 +6,12 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { login } from "./api";
+import { useHistory } from "react-router-dom";
 
 
 export default function Login() {
 
+    let history = useHistory();
 
     const [values, setValues] = useState({
         name: '',
@@ -31,15 +33,20 @@ export default function Login() {
     const handleSubmit = event => {
         event.preventDefault();
         console.log("Hey");
-        login(values.email, values.password)
+        login(values.email, values.password);
+        history.push("/Bookshelf");
+
     };
+    const handleSignUp = () => {
+        history.push("/signup");
+    }
 
     return (
         <div>
             <Container /* className="{classes.container}" */>
                 <h4>Login</h4>
-                <Form onSubmit={handleSubmit}>
-                    
+                <Form onSubmit={handleSubmit} className="mb-2">
+
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
                         <Form.Control type="email" placeholder="Enter email" onChange={handleChange("email")} required />
@@ -64,11 +71,12 @@ export default function Login() {
                     {/* <Form.Group controlId="formBasicCheckbox">
                         <Form.Check type="checkbox" label="Check me out" />
                     </Form.Group> */}
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" type="submit" block>
                         Submit
-  </Button>
+                    </Button>
+                    
                 </Form>
-
+<Button onClick={handleSignUp} block>SignUp</Button>
 
 
                 {/* <FormControl className={clsx(classes.margin, classes.textField)}
