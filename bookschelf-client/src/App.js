@@ -10,31 +10,17 @@ import Bookshelf from '../src/components/Bookshelf';
 import BookView from '../src/components/BookView';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from 'react-bootstrap/Navbar';
+
 import Container from 'react-bootstrap/Container';
-import Nav from "react-bootstrap/Nav";
+import Navigation from './components/Navigation';
+
 
 export default function ButtonAppBar() {
 
   return (
     <div>
       <Router>
-
- 
-          <Navbar bg="dark" variant="dark">
-            <Navbar.Brand /*  href="/" */><Link to="/" >Bookshelf</Link></Navbar.Brand>
-            <Nav.Link ><Link to="/Bookshelf">Search Books</Link></Nav.Link>
-            {/* <Nav className="mr-auto">
-              
-              <Nav.Link href="#features">Features</Nav.Link>
-              <Nav.Link href="#pricing">Pricing</Nav.Link>
-            </Nav> */}
-            {/* <Form inline>
-              <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-              <Button variant="outline-info">Search</Button>
-            </Form> */}
-
-          </Navbar>
+        <Navigation />
 
         <Container className="d-flex justify-content-center mt-5">
           <Switch>
