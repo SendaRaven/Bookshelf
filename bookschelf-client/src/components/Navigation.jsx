@@ -1,25 +1,39 @@
 import React from 'react'
-import Nav from "react-bootstrap/Nav";
 import Navbar from 'react-bootstrap/Navbar';
-import { Link, useParams } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import { useHistory } from "react-router-dom";
 import { currentUser, logout } from './api';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row'
-import Container from 'react-bootstrap/Container'
+import Form from 'react-bootstrap/Form'
+import FormControl from 'react-bootstrap/FormControl'
+import Button from 'react-bootstrap/Button'
 
-const handleLogout = () => {
-    logout();
-    this.props.history.push('/')
-}
+
+
+
+
 
 
 
 
 export default function Navigation() {
     const isLoggedIn = !!currentUser();
+    let history = useHistory();
+    let location = useLocation();
+
+        const handleLogout = () => {
+        logout();
+        history.push('/')
+        console.log("goodbye");
+
+    }
+
     const leftMenu = () => {
 
-        const hideMenu = ['/login', "/signup"].includes(url);
+        const hideMenu = ['/login', "/signup"].includes(location.pathname);
+        console.log(location);
+        
         if (hideMenu) {
             return null
         }
@@ -30,7 +44,21 @@ export default function Navigation() {
             </Col>
         )
     }
-    const url = useParams();
+
+    const searchBar = () => {
+          let showMenu = ["/Bookshelf"].includes(location.pathname);
+        if (showMenu) {
+            return (
+                <Form inline>
+                    <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+                    <Button variant="outline-primary">Search</Button>
+                </Form>
+            )
+        }
+        return null;
+    }
+
+
     return (
         <Navbar bg="dark" variant="dark" >
             <Row row className="w-100 justify-content-between">
@@ -41,12 +69,8 @@ export default function Navigation() {
           
           <Nav.Link href="#features">Features</Nav.Link>
           <Nav.Link href="#pricing">Pricing</Nav.Link>
-        </Nav> */}
-                    {/* <Form inline>
-          <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-          <Button variant="outline-info">Search</Button>
-        </Form> */}
-                </Col>
+        </Nav> */}</Col>
+                {searchBar()}
                 {leftMenu()}
             </Row>
         </Navbar>
