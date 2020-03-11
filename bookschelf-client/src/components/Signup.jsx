@@ -5,10 +5,15 @@ import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-
-
+import { signup } from './api'
+import { useHistory } from "react-router-dom";
+import Alert from 'react-bootstrap/Alert'
 
 export default function Login() {
+
+    let history = useHistory();
+
+    const [status, setStatus] = useState({});
 
     const [values, setValues] = useState({
         name: '',
@@ -16,9 +21,12 @@ export default function Login() {
         showPassword: false,
     });
 
+
+
     const handleChange = prop => event => {
         setValues({ ...values, [prop]: event.target.value });
     };
+
     const handleClickShowPassword = () => {
         setValues({ ...values, showPassword: !values.showPassword });
     };
@@ -27,18 +35,59 @@ export default function Login() {
         event.preventDefault();
     };
 
-    const handleSubmit = event => {
-        event.preventDefault();
-        console.log("Hey");
+    const handleSubmit = async event => {
 
+        event.preventDefault()
+
+        try {
+            let res = await signup(values.name, values.email, values.password);
+
+            //console.log(res);
+
+            if (!res.username) {
+                throw Error(res.message);
+            } else {
+                setStatus({
+                    "Status": "Success",
+                    "message": `Welcome ${res.username}!`
+                });
+                history.push("/login")
+            }
+        }
+        catch (error) {
+            setStatus({
+                "Status": "Error!",
+                "message": error.message
+            })
+            console.log(error);
+        }
+        ;
+    };
+
+    const AlertMessage = () => {
+        if (status.Status) {
+
+
+            return (
+                <Alert variant={status.Status === "Error!" ? "danger" : "success"}>
+                    <Alert.Heading>
+                        {status.Status}
+                    </Alert.Heading>
+                    <p>{status.message}</p>
+                </Alert>
+
+            )
+        }
+        return null;
     };
 
     return (
         <div>
             <Container>
                 <h4>Signup</h4>
+                <AlertMessage />
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="formBasicEmail">
+                    <Form.Group controlId="formBasicName">
                         <Form.Label>Name</Form.Label>
                         <Form.Control type="text" placeholder="Enter name" onChange={handleChange("name")} required />
                     </Form.Group>
@@ -69,69 +118,8 @@ export default function Login() {
                     </Form.Group> */}
                     <Button variant="primary" type="submit">
                         Submit
-  </Button>
+                     </Button>
                 </Form>
-                {/* <form className={classes.form} noValidate autoComplete="off" onSubmit={handleSubmit}>
-
-
-                    <FormControl className={clsx(classes.margin, classes.textField)}
-                        margin="dense">
-
-                        <InputLabel htmlFor="name">Name</InputLabel>
-                        <Input
-                            id='name'
-                            value={values.name}
-                            onChange={handleChange('name')}
-                        />
-                    </FormControl>
-                    <FormControl className={clsx(classes.margin, classes.textField)}
-                        margin="dense">
-
-                        <InputLabel htmlFor="adornment-password">Password</InputLabel>
-                        <Input
-                            id="adornment-password"
-                            type={values.showPassword ? 'text' : 'password'}
-                            value={values.password}
-                            onChange={handleChange('password')}
-                            endAdornment={
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                    >
-                                        {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                                    </IconButton>
-                                </InputAdornment>
-                            }
-                        />
-                    </FormControl >
-                    <FormControl className={clsx(classes.margin, classes.textField)}
-                        margin="dense">
-
-                        <InputLabel htmlFor="adornment-password-repeat">Repeat Password</InputLabel>
-                        <Input
-                            id="adornment-password-repeat"
-                            type={values.showPassword ? 'text' : 'password'}
-                            value={values.password}
-                            onChange={handleChange('password')}
-                            endAdornment={
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                    >
-                                        {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                                    </IconButton>
-                                </InputAdornment>
-                            }
-                        />
-                    </FormControl >
-                    <Button type='submit' className={classes.button} variant="contained" color='primary'>
-                        Register
-                    </Button>
-                </form > */}
             </Container >
 
         </div >
