@@ -7,11 +7,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { login } from "./api";
 import { useHistory } from "react-router-dom";
+import Alert from 'react-bootstrap/Alert'
 
 
 export default function Login() {
 
     let history = useHistory();
+    const [status, setStatus] = useState({});
 
     const [values, setValues] = useState({
         name: '',
@@ -30,21 +32,57 @@ export default function Login() {
         event.preventDefault();
     };
 
-    const handleSubmit = event => {
+    const handleSubmit = async event => {
         event.preventDefault();
-        console.log("Hey");
-        login(values.email, values.password);
-        history.push("/Bookshelf");
-
+        try {
+            let res = await login(values.email, values.password);
+            console.log(res);
+            
+            if (!res.token) {
+                throw Error(res.message);
+            } else {
+                setStatus({
+                    "Status": "Success",
+                    "message": `Welcome ${res.username}!`
+                });
+                history.push("/")
+            }
+        }
+        catch (error) {
+            setStatus({
+                "Status": "Error!",
+                "message": error.message
+            })
+            console.log(error);
+        }
     };
+
     const handleSignUp = () => {
         history.push("/signup");
-    }
+    };
+
+    const AlertMessage = () => {
+        if (status.Status) {
+
+
+            return (
+                <Alert variant={status.Status === "Error!" ? "danger" : "success"}>
+                    <Alert.Heading>
+                        {status.Status}
+                    </Alert.Heading>
+                    <p>{status.message}</p>
+                </Alert>
+
+            )
+        }
+        return null;
+    };
 
     return (
         <div>
             <Container /* className="{classes.container}" */>
                 <h4>Login</h4>
+                <AlertMessage />
                 <Form onSubmit={handleSubmit} className="mb-2">
 
                     <Form.Group controlId="formBasicEmail">
@@ -74,47 +112,9 @@ export default function Login() {
                     <Button variant="primary" type="submit" block>
                         Submit
                     </Button>
-                    
+
                 </Form>
-<Button onClick={handleSignUp} block>SignUp</Button>
-
-
-                {/* <FormControl className={clsx(classes.margin, classes.textField)}
-                        margin="dense">
-
-                        <InputLabel htmlFor="name">Name</InputLabel>
-                        <Input
-                            id='name'
-                            value={values.name}
-                            onChange={handleChange('name')}
-                        />
-                    </FormControl>
-                    <FormControl className={clsx(classes.margin, classes.textField)}
-                        margin="dense">
-
-                        <InputLabel htmlFor="adornment-password">Password</InputLabel>
-                        <Input
-                            id="adornment-password"
-                            type={values.showPassword ? 'text' : 'password'}
-                            value={values.password}
-                            onChange={handleChange('password')}
-                            endAdornment={
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                    >
-                                        {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                                    </IconButton>
-                                </InputAdornment>
-                            }
-                        />
-                    </FormControl >
-                    <Button type='submit' className={classes.button} variant="contained" color='primary'>
-                        Login
-                    </Button> */}
-
+                <Button onClick={handleSignUp} variant="danger" block>SignUp</Button>
             </Container >
 
         </div >
