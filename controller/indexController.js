@@ -3,35 +3,37 @@
 const Users = require('../models/userSchema');
 // const validator = require('validator');
 const createError = require('http-errors');
-const { create, check} = require('../middleware/auth')
+const { create, check } = require('../middleware/auth')
 const jwt = require('jsonwebtoken');
 
 async function userLogin(req, res, next) {
-    const username = await req.body.username;
+    const email = await req.body.email;
     const password = await req.body.password;
 
-    if (!username || !password) {
-        next(createError(401, "Authentication required"))
+    if (!email || !password) {
+        return next(createError(401, "0 Authentication required"))
     }
     try {
 
         Users.findOne({
-            username: username
+            "contact.email": email
         }, async function (err, user) {
+            console.log(user);
+
             if (err) {
-               return next(createError(401, err.message))
+                return next(createError(401, err.message))
             }
             if (!user) {
                 return next(createError(400, "The username does not exist"));
-            
+
             }
             // console.log(user.password);
             // console.log(await check(password, user.password));
-            
+
             if (await check(password, user.password) === true) {
                 let token = jwt.sign(
                     {
-                        username: username,
+                        email: email,
                         _id: user._id
                     },
                     process.env.KEY,
@@ -39,11 +41,11 @@ async function userLogin(req, res, next) {
                 )
                 res.json({ token: token })
             } else {
-                return next(createError(401, "Authentication required"))
+                return next(createError(401, "1 Authentication required"))
             }
         })
     } catch (error) {
-        return next(createError(401, "Authentication required"))
+        return next(createError(401, "2 Authentication required"))
     }
 }
 
@@ -51,31 +53,36 @@ async function userLogin(req, res, next) {
 async function createUser(req, res, next) {
 
     let userData = await req.body;
-    console.log(userData.password, userData.username);
+    console.log("recived Data", userData.password, userData.username, userData.email);
 
     if (!userData.username || !userData.password) {
-        next(createError(400, "required fields missing: username, password!"))
-        return;
+        console.log(500, "required fields missing: username, password!");
+        return next(createError(500, "required fields missing: username, password!"))
+
+
     }
 
     if (userData.username.length < 3 || userData.username.length > 30) {
-        next(createError(400, "Username not valid!"))
-        return;
+        console.log(500, "Username not valid!");
+        return next(createError(400, "Username not valid!"))
+
     }
     if (userData.password.length < 6 || userData.password.length > 1024) {
-        next(createError(404, "Password not valid!"))
-        return;
+        console.log(409, "Password not valid!");
+        return next(createError(400, "Password not valid!"));
     }
 
     let newUser = {
         username: userData.username.trim(),
         password: await create(userData.password.trim()),
-        contact: userData.contact,
+        contact: {
+            email: userData.email.trim()
+        },
         borrowedBooks: userData.borrowedBooks,
         openFees: userData.openFees
     }
 
-    console.log(newUser);
+    console.log("newUser", newUser);
 
     try {
         Users.create(newUser, function (err, doc) {
@@ -87,21 +94,23 @@ async function createUser(req, res, next) {
 
 
                 if (err.errmsg && err.errmsg.includes("E11000 duplicate key error")) {
-                    msg = `error: username ${userData.username} already exists!`;
+                    console.log("Database Error", err.keyValue);
+                    let errorArray = Object.entries(err.keyValue)
+                    console.log(errorArray);
+
+                    msg = `The ${errorArray[0][0]} ${errorArray[0][1]} already exists!`;
                     status = 409; // Conflict
                 }
-
-                res.status(status).send(msg);
-                return;
+                return next(createError(status, msg));
+                //res.status(status).send(msg);
             }
 
-            res.status(200)
-            res.send(doc);
+            res.status(200).send(doc);
             // res.send("Input is valid!")
         })
     } catch (error) {
         console.log("Error2", error);
-        next(createError(500, error))
+        return next(createError(500, error));
     }
 
 }
