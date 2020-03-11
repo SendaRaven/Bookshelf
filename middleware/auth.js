@@ -16,7 +16,7 @@ async function checkAuth(password, userPassword) {
     try {
         const passwordsMatch = await bcrypt.compare(password, userPassword)
         if (!passwordsMatch) {
-            return createError(400, 'email or password incorrect.')
+            return null;
         }
         return passwordsMatch
     } catch (error) {
