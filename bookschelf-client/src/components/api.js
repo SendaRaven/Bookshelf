@@ -38,20 +38,64 @@ async function login(email, password) {
     try {
         const data = await fetch('http://localhost:3001/login', options)
         if (data.ok) {
-            data.json();
+            let result = await data.json();
             const user = {
                 email: email,
-                token: data.token
+                token: result.token
             }
             localStorage.setItem("cm-user", JSON.stringify(user))
             return user;
 
         } else {
-            throw Error("Login failed!")
+            let result = await data.json();
+            console.log("result Errormessage", result);
+            return result;
+            //throw Error("Login failed!")
         }
     } catch (error) {
         console.log(error);
 
+    }
+}
+
+async function signup(name, email, password) {
+
+    const body = {
+        username: name,
+        email: email,
+        password: password
+    }
+    //console.log("Body", body);
+
+    const options = {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json' }
+    }
+    try {
+        const data = await fetch('http://localhost:3001/signup', options)
+        console.log("recived Data", data);
+
+        if (data.ok) {
+            let result = await data.json();
+            const user = {
+                username: result.username,
+                email: result.contact.email,
+            }
+            console.log("User", user);
+
+            return user;
+
+        } else {
+            let result = await data.json();
+            console.log("result Errormessage", result);
+            return result;
+            //throw Error(result);
+        }
+
+    } catch (error) {
+        console.log("Other Error", error);
+        return error;
     }
 }
 
@@ -64,5 +108,6 @@ module.exports = {
     getBooks: getBooks,
     login: login,
     currentUser: currentUser,
-    logout: logout
+    logout: logout,
+    signup: signup,
 }
