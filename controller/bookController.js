@@ -8,7 +8,7 @@ const createError = require('http-errors');
 function books(req, res, next) {
     Book.find({}, function (err, books) {
         if (err) {
-            next(createError(400, err));
+           return next(createError(400, err));
         }
         res.send(books)
     })
