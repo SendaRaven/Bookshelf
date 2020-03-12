@@ -5,24 +5,14 @@ import { useHistory } from "react-router-dom";
 import { currentUser, logout } from './api';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row'
-import Form from 'react-bootstrap/Form'
-import FormControl from 'react-bootstrap/FormControl'
-import Button from 'react-bootstrap/Button'
-
-
-
-
-
-
-
-
+import SearchBar from './SearchBar';
 
 export default function Navigation() {
     const isLoggedIn = !!currentUser();
     let history = useHistory();
     let location = useLocation();
 
-        const handleLogout = () => {
+    const handleLogout = () => {
         logout();
         history.push('/')
         console.log("goodbye");
@@ -33,11 +23,12 @@ export default function Navigation() {
 
         const hideMenu = ['/login', "/signup"].includes(location.pathname);
         console.log(location);
-        
+
         if (hideMenu) {
             return null
         }
         return (
+
             <Col sm="auto" className="d-flex align-items-center" >
                 {!isLoggedIn && <Link to="/login">Log In</Link>}
                 {isLoggedIn && <Link to="/" onClick={handleLogout}>Log Out</Link>}
@@ -46,14 +37,9 @@ export default function Navigation() {
     }
 
     const searchBar = () => {
-          let showMenu = ["/Bookshelf"].includes(location.pathname);
+        let showMenu = ["/Bookshelf"].includes(location.pathname);
         if (showMenu) {
-            return (
-                <Form inline>
-                    <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                    <Button variant="outline-primary">Search</Button>
-                </Form>
-            )
+            return <SearchBar/>
         }
         return null;
     }
