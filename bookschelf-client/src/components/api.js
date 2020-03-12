@@ -103,6 +103,29 @@ function logout() {
     localStorage.removeItem('cm-user')
 }
 
+async function bookSearch(keyword) {
+
+    const body = {
+        keyword: keyword
+    }
+    //console.log("Body", body);
+
+    const options = {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json' }
+    }
+    try {
+        const data = await fetch('http://localhost:3001/Bookshelf', options)
+        if (data.ok) {
+            return await data.json();
+        }
+    } catch (error) {
+console.log(error);
+
+    }
+}
+
 
 module.exports = {
     getBooks: getBooks,
@@ -110,4 +133,6 @@ module.exports = {
     currentUser: currentUser,
     logout: logout,
     signup: signup,
+    bookSearch,
+
 }
